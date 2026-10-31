@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+/*
+  设计规范：手机 App 风格
+  - 浅灰底 + 白色大圆角卡片，没有边框
+  - 主按钮黑色胶囊；强调色只用一种（靛紫），用在图表、选中、进度
+  - 数字大而粗；状态用小圆点 + 浅色底胶囊
+  - 手机优先：底部悬浮黑色导航条，列表用“行”而不是表格
+*/
+@theme {
+  --color-ink: #0f1115;
+  --color-muted: #6b7280;
+  --color-faint: #9ca3af;
+  --color-paper: #f3f4f6;
+  --color-card: #ffffff;
+  --color-fill: #f4f5f7;          /* 输入框、次要按钮的灰色填充 */
+  --color-line: #e8e9ee;
+
+  --color-harbor: #5b4bf5;        /* 强调色：靛紫 */
+  --color-harbor-dark: #4636e0;
+  --color-harbor-soft: #eeecff;
+  --color-signal: #f5b400;        /* 待处理 */
+  --color-signal-soft: #fff6db;
+
+  --color-ok: #16a34a;
+  --color-ok-soft: #e7f6ec;
+  --color-warn: #e07b00;
+  --color-warn-soft: #fff1e0;
+  --color-danger: #e5484d;
+  --color-danger-soft: #fdecec;
+  --color-sky: #2f80ed;
+  --color-sky-soft: #e8f1fd;
+
+  /* 兼容旧类名 */
+  --color-lime: #16a34a;
+  --color-lime-soft: #e7f6ec;
+  --color-berry: #e5484d;
+  --color-berry-soft: #fdecec;
+  --color-plum: #5b4bf5;
+  --color-plum-soft: #eeecff;
+  --color-mango-soft: #fff6db;
+
+  --font-sans: 'Plus Jakarta Sans', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'PingFang SC', 'Noto Sans CJK JP', 'Noto Sans JP', 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-display: var(--font-sans);
+}
+
+html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+body { background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); font-size: 15px; }
+/* 网格子项默认 min-width:auto 会被长文本撑宽，手机上溢出；统一允许收缩 */
+.grid > * { min-width: 0; }
+pre { overflow-wrap: anywhere; }
+.num { font-variant-numeric: tabular-nums; }
+.display { font-family: var(--font-display); letter-spacing: -0.025em; }
+
+:focus-visible { outline: 2.5px solid var(--color-harbor); outline-offset: 2px; }
+
+/* 订单号：浅灰胶囊 */
+.tag {
+  display: inline-flex; align-items: center; gap: .3rem;
+  background: var(--color-fill); color: var(--color-ink);
+  font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .01em;
+  padding: .2rem .65rem; border-radius: 999px; white-space: nowrap; font-size: .8em;
+}
+.tag::before { content: '#'; color: var(--color-faint); font-weight: 600; }
+
+/* 卡片阴影：很轻 */
+.shadow-card { box-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 10px 30px -18px rgba(16, 24, 40, .18); }
+.shadow-float { box-shadow: 0 18px 40px -16px rgba(15, 17, 21, .45); }
+
+/* 表格（电脑端），手机端自动变成卡片 */
+.tbl { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .875rem; }
+.tbl thead th {
+  text-align: left; font-weight: 600; color: var(--color-muted); font-size: .78rem;
+  padding: .7rem 1rem; border-bottom: 1px solid var(--color-line); white-space: nowrap;
+}
+.tbl td { padding: .85rem 1rem; border-bottom: 1px solid #f0f1f4; vertical-align: middle; }
+.tbl td.num, .tbl td.r { white-space: nowrap; }
+.tbl tbody tr:last-child td { border-bottom: 0; }
+.tbl tfoot td { border-bottom: 0; border-top: 1px solid var(--color-line); }
+.tbl tfoot tr + tr td { border-top: 0; }
+.tbl .r { text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 767px) {
+  .tbl.stack thead { display: none; }
+  .tbl.stack, .tbl.stack tbody, .tbl.stack tr, .tbl.stack td { display: block; width: 100%; }
+  .tbl.stack tbody tr { padding: .8rem 1rem; border-bottom: 1px solid #f0f1f4; }
+  .tbl.stack tbody tr:last-child { border-bottom: 0; }
+  .tbl.stack td { display: flex; justify-content: space-between; gap: 1rem; padding: .2rem 0; border: 0; text-align: right; }
+  .tbl.stack td::before { content: attr(data-label); color: var(--color-muted); font-size: .8rem; text-align: left; }
+  .tbl.stack td:first-child { font-weight: 700; font-size: .95rem; }
+  .tbl.stack td:first-child::before { content: none; }
+  .tbl.stack tfoot, .tbl.stack tfoot tr { display: block; }
+  .tbl.stack tfoot td { display: flex; justify-content: space-between; padding: .6rem 1rem; }
+  .tbl.stack tfoot td:empty { display: none; }
+}
+
+input, select, textarea { font: inherit; }
+.field {
+  width: 100%; border: 1.5px solid transparent; border-radius: 16px; background: var(--color-fill);
+  padding: .8rem 1rem; font-size: 1rem; color: var(--color-ink); transition: border-color .15s, box-shadow .15s, background-color .15s;
+}
+.field::placeholder { color: var(--color-faint); }
+.field:hover { background: #eef0f3; }
+.field:focus { outline: none; background: #fff; border-color: var(--color-harbor); box-shadow: 0 0 0 4px var(--color-harbor-soft); }
+.field:disabled { color: var(--color-muted); }
+select.field { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%236b7280' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.4rem; }
+
+.scroller { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.scroller::-webkit-scrollbar { display: none; }
+
+/* 斜纹柱（图表里的非重点柱子） */
+.stripes { background-image: repeating-linear-gradient(135deg, #e9eaef 0 6px, #f4f5f7 6px 12px); }
+
+@keyframes pop { 0% { transform: scale(.85); opacity: 0 } 100% { transform: scale(1); opacity: 1 } }
+.pop { animation: pop .25s cubic-bezier(.2,.9,.3,1.2) both; }
+@keyframes rise { from { transform: translateY(8px); opacity: 0 } to { transform: none; opacity: 1 } }
+.rise { animation: rise .3s ease-out both; }
+
+@media print {
+  body { background: #fff; }
+  .no-print { display: none !important; }
+  @page { size: A4; margin: 14mm; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
