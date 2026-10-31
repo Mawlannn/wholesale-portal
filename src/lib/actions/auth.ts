@@ -6,13 +6,9 @@ import { createClient } from '../supabase/server';
 import { getLocale } from '../session';
 import { done, fail, str } from '../flash';
 import { mailAdmin } from '../mail';
+import { siteUrl } from '../site';
 
-async function origin() {
-  const env = process.env.NEXT_PUBLIC_SITE_URL;
-  if (env) return env.replace(/\/$/, '');
-  const h = await headers();
-  return `${h.get('x-forwarded-proto') ?? 'https'}://${h.get('host')}`;
-}
+const origin = siteUrl;
 
 export async function login(fd: FormData) {
   const supabase = await createClient();

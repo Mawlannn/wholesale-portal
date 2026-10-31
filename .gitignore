@@ -5,3 +5,8 @@ node_modules
 tests/node_modules
 *.tsbuildinfo
 next-env.d.ts
+/dist/
+.vinext/
+.cloudflare/
+.dev.vars*
+.env

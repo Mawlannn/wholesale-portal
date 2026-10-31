@@ -25,7 +25,7 @@ export default async function AdminOrder({ params, searchParams }: { params: Pro
     supabase.from('order_allocations').select('qty, order_item_id, lots(lot_no, expiry_date)').in('order_item_id', o.order_items.map((i: { id: string }) => i.id)),
     supabase.from('settings').select('courier_email').eq('id', 1).single(),
   ]);
-  const site = siteUrl();
+  const site = await siteUrl();
   const courierLink = o.courier_token ? `${site}/courier/${o.courier_token}` : null;
   const lastCourierMail = (mails ?? []).find((m) => m.kind === 'courier_order');
   const customerKind = o.status === 'shipped' ? 'shipped' : 'confirmed';

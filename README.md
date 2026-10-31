@@ -3,7 +3,7 @@
 进口食品・饮料批发用的 B2B 订货 + 库存 + 应收账款管理系统。
 管理端和客户端都支持 **日本語 / 中文 / English**，按浏览器语言自动切换，也可以手动选择。
 
-技术：Next.js 15 + Supabase（Postgres 数据库、登录）+ 你自己的邮箱（SMTP）发邮件，也可以用 Resend。
+技术：Next.js 15（用 vinext 部署在 Cloudflare Workers）+ Supabase（Postgres 数据库、登录）+ 你自己的邮箱（SMTP）发邮件，也可以用 Resend。
 
 ---
 
@@ -71,27 +71,37 @@
 - 设置好后，后台 **设置 → 发信邮箱** 会显示“已连接”，可以点“发送测试邮件”试一下。
 - 不想用自己的邮箱，也可以用 https://resend.com（填 `RESEND_API_KEY`）。两种都没填时，邮件只保存在“邮件记录”里，不会真正发出。
 
-### 4. 部署网站（Vercel）
-1. 把本文件夹上传到 GitHub，在 https://vercel.com 导入。
-2. 设置环境变量（参考 `.env.example`）：
+### 4. 部署网站（Cloudflare Workers）
+本项目用 vinext（Cloudflare 官方的 Next.js 运行方式）打包，部署在 Cloudflare Workers。
+
+1. Cloudflare 后台 → **Workers & Pages** → **Create** → **Import a repository** → 选 GitHub 仓库 `wholesale-portal`。
+2. 构建设置：
+   - Build command：留空
+   - Deploy command：`npm run deploy`
+3. **Build variables**（构建时用，会写进网页里，只放公开的值）：
 
 | 变量 | 说明 |
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 同上（anon / publishable key） |
-| `SUPABASE_SERVICE_ROLE_KEY` | 同上（service_role，**绝对不能公开**） |
-| `NEXT_PUBLIC_SITE_URL` | 选填：网站正式网址。部署在 Vercel 时不填会自动使用 Vercel 的网址；以后绑定自己的域名再填 |
-| `SMTP_HOST` `SMTP_PORT` `SMTP_USER` `SMTP_PASS` | 你自己的发信邮箱（见上一步） |
-| `EMAIL_FROM` | 例如 `東京輸入食品 <orders@example.com>` |
+| `NEXT_PUBLIC_SITE_URL` | 选填：绑定自己的域名后再填；不填会自动使用当前访问的网址 |
+
+4. 部署完成后，在 Worker 的 **Settings → Variables and Secrets** 添加（类型选 **Secret**）：
+
+| 变量 | 说明 |
+|---|---|
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service_role 密钥（**绝对不能公开**） |
+| `SMTP_HOST` `SMTP_PORT` `SMTP_USER` `SMTP_PASS` `EMAIL_FROM` | 你自己的发信邮箱（见上一步，选填） |
 | `RESEND_API_KEY` | 选填，不用自己的邮箱时才需要 |
 
-3. 部署完成后，用管理员账号登录 → **设置**：填写公司名称、地址、适格请求书登记号码、收款账户、**快递商邮箱**、截止时间、付款期限。
+5. 用管理员账号登录 → **设置**：填写公司名称、地址、适格请求书登记号码、收款账户、**快递商邮箱**、截止时间、付款期限。
 
 ### 本地开发
 ```bash
 npm install
-cp .env.example .env.local   # 填入上面的值
-npm run dev                  # http://localhost:3000
+cp .env.example .dev.vars    # 填入上面的值（本地开发）
+npm run dev                  # vinext 开发服务器
+npm run dev:next             # 也可以用原来的 Next.js 方式运行
 ```
 
 ---

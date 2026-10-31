@@ -71,7 +71,7 @@ export async function sendMail(m: Mail): Promise<'sent' | 'failed' | 'skipped'> 
   return status;
 }
 
-const site = () => siteUrl();
+const site = siteUrl;
 
 // ---------------------------------------------------------------------
 // 邮件模板（三种语言）
@@ -199,7 +199,7 @@ export async function composeCourierOrder(orderId: string): Promise<Draft> {
     shipBlock(order, L, locale),
     '',
     L.courierLink,
-    `${site()}/courier/${order.courier_token}`,
+    `${await site()}/courier/${order.courier_token}`,
     fill(L.sign, v),
     [settings.company_phone, settings.company_email].filter(Boolean).join(' / '),
   ].join('\n');
@@ -250,7 +250,7 @@ export async function composeCustomer(orderId: string, kind: CustomerMailKind): 
   else lines.push(`${L.no}: ${order.order_no}`);
   lines.push(`${L.total}: ${yen(order.total)}`);
   if (kind === 'shipped' && order.tracking_no) lines.push(`${L.tracking}: ${order.tracking_no}`);
-  lines.push('', `${L.view}: ${site()}/shop/orders/${order.id}`, fill(L.sign, v), [settings.company_phone, settings.company_email].filter(Boolean).join(' / '));
+  lines.push('', `${L.view}: ${await site()}/shop/orders/${order.id}`, fill(L.sign, v), [settings.company_phone, settings.company_email].filter(Boolean).join(' / '));
   return { to: order.customers.email ?? '', cc: '', subject: fill(subj, v), body: lines.join('\n') };
 }
 
@@ -279,7 +279,7 @@ export async function mailCustomerApproved(customerId: string) {
   await sendMail({
     to: c.email, kind: 'customer_approved', customerId,
     subject: L.approvedSubject,
-    body: [fill(L.approvedBody, v), '', `${site()}/login`, fill(L.sign, v)].join('\n'),
+    body: [fill(L.approvedBody, v), '', `${await site()}/login`, fill(L.sign, v)].join('\n'),
   });
 }
 
@@ -296,10 +296,10 @@ export async function mailAdmin(kind: 'new_order' | 'new_customer' | 'cancel_req
     const v = { no: order.order_no, company: order.customers.company_name };
     subject = fill(
       kind === 'new_order' ? L.adminNewOrderSubject : kind === 'cancel_request' ? L.adminCancelSubject : L.adminCourierShippedSubject, v);
-    body = [`${L.no}: ${order.order_no}`, `${L.total}: ${yen(order.total)}`, '', `${site()}/admin/orders/${order.id}`].join('\n');
+    body = [`${L.no}: ${order.order_no}`, `${L.total}: ${yen(order.total)}`, '', `${await site()}/admin/orders/${order.id}`].join('\n');
   } else {
     subject = fill(L.adminNewCustomerSubject, { company: ref.company ?? '' });
-    body = `${site()}/admin/customers?tab=pending`;
+    body = `${await site()}/admin/customers?tab=pending`;
   }
   await sendMail({ to: s.company_email, subject, body, kind: `admin_${kind}`, orderId: ref.orderId });
 }
