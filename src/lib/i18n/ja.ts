@@ -180,7 +180,7 @@ export const ja: Dict = {
   },
   errors: {
     invalid_login: 'メールアドレスまたはパスワードが違います', sku_taken: 'この商品コードは既に使われています',
-    generic: '処理に失敗しました。もう一度お試しください', forbidden: '権限がありません', not_approved: 'アカウントはまだ承認されていません',
+    generic: '処理に失敗しました。もう一度お試しください', link_expired: 'リンクの有効期限が切れているか、使用済みです。もう一度パスワード再設定メールを送信してください', forbidden: '権限がありません', not_approved: 'アカウントはまだ承認されていません',
     empty_order: '商品を 1 つ以上選んでください', invalid_qty: '数量が正しくありません', product_unavailable: '販売終了の商品が含まれています',
     below_min_qty: '{sku} は最低注文数に達していません', insufficient_stock: '{sku} の在庫が足りません',
     invalid_address: '納品先を選んでください', credit_limit_exceeded: 'ご利用限度額を超えています。お支払い後に再度お試しください',

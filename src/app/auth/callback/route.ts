@@ -8,7 +8,12 @@ export async function GET(request: NextRequest) {
   const next = url.searchParams.get('next') || '/';
   if (code) {
     const supabase = await createClient();
-    await supabase.auth.exchangeCodeForSession(code);
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error && next.startsWith('/reset-password')) {
+      return NextResponse.redirect(new URL('/forgot?err=link_expired', url.origin));
+    }
+  } else if (url.searchParams.get('error') && next.startsWith('/reset-password')) {
+    return NextResponse.redirect(new URL('/forgot?err=link_expired', url.origin));
   }
   return NextResponse.redirect(new URL(next.startsWith('/') ? next : '/', url.origin));
 }

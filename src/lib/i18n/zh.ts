@@ -176,7 +176,7 @@ export const zh = {
   },
   errors: {
     invalid_login: '邮箱或密码不正确', sku_taken: '商品编号已存在',
-    generic: '操作失败，请重试', forbidden: '没有权限', not_approved: '账号尚未审核通过', empty_order: '请至少选择一个商品',
+    generic: '操作失败，请重试', link_expired: '链接已失效或已被使用，请重新申请重置密码邮件（请在同一个浏览器里打开最新的那封邮件）', forbidden: '没有权限', not_approved: '账号尚未审核通过', empty_order: '请至少选择一个商品',
     invalid_qty: '数量不正确', product_unavailable: '有商品已下架', below_min_qty: '{sku} 未达到起订数量',
     insufficient_stock: '{sku} 库存不足', invalid_address: '请选择收货地址', credit_limit_exceeded: '超过信用额度，请先付款或联系我们',
     order_locked: '订单状态已变化，无法执行此操作', order_not_confirmed: '订单尚未确认', not_found: '找不到数据',

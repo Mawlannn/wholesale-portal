@@ -180,7 +180,7 @@ export const en: Dict = {
   },
   errors: {
     invalid_login: 'Email or password is incorrect', sku_taken: 'This item code is already used',
-    generic: 'Something went wrong. Please try again', forbidden: 'You do not have permission', not_approved: 'Your account is not approved yet',
+    generic: 'Something went wrong. Please try again', link_expired: 'This link has expired or was already used. Please request a new password reset email', forbidden: 'You do not have permission', not_approved: 'Your account is not approved yet',
     empty_order: 'Choose at least one product', invalid_qty: 'Invalid quantity', product_unavailable: 'A product is no longer available',
     below_min_qty: '{sku} is below the minimum order', insufficient_stock: 'Not enough stock for {sku}',
     invalid_address: 'Choose a delivery address', credit_limit_exceeded: 'Credit limit exceeded. Please pay first or contact us',
