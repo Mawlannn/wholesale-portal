@@ -10,6 +10,7 @@ export default async function PendingPage() {
   if (!user) redirect('/login');
   if (profile?.role === 'admin') redirect('/admin');
   if (customer?.status === 'approved') redirect('/shop');
+  if (!customer) redirect('/complete-profile');
   const suspended = customer?.status === 'suspended';
   return (
     <div className="rounded-[28px] bg-card p-6 shadow-card">

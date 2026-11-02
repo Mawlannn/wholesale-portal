@@ -4,6 +4,7 @@ import { readFlash } from '@/lib/flash';
 import { register } from '@/lib/actions/auth';
 import { Field, Flash, Input, Textarea } from '@/components/ui';
 import { SubmitButton } from '@/components/client';
+import { GoogleSignIn } from '@/components/google-button';
 
 export default async function RegisterPage({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
   const { t } = await getT();
@@ -14,6 +15,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
       <h1 className="display text-[2rem] font-extrabold leading-tight">{t.reg.title}</h1>
       <p className="mb-6 mt-2 text-sm text-muted">{t.reg.intro}</p>
       <Flash {...flash} />
+      <GoogleSignIn label={t.auth.google} divider={t.auth.or} />
       <form action={register} className="space-y-4 rounded-[28px] bg-card p-5 shadow-card sm:p-6">
         <Field label={<>{t.reg.company}{req}</>}><Input name="company_name" required autoComplete="organization" /></Field>
         <div className="grid gap-4 sm:grid-cols-2">

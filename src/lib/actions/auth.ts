@@ -8,6 +8,7 @@ import { done, fail, str } from '../flash';
 import { mailAdmin } from '../mail';
 import { siteUrl } from '../site';
 import { createClient as createPlainClient } from '@supabase/supabase-js';
+import { createServiceClient } from '../supabase/admin';
 
 const origin = siteUrl;
 
@@ -79,4 +80,42 @@ export async function acceptEmailTokens(accessToken: string, refreshToken: strin
   const { error } = await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
   if (error) fail('/forgot', 'link_expired');
   redirect(dest);
+}
+
+/** Google 登录 / 注册（第一次登录会要求补充公司信息） */
+export async function signInWithGoogle() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: `${await origin()}/auth/callback?next=/`, queryParams: { prompt: 'select_account' } },
+  });
+  if (error || !data.url) fail('/login', error?.message ?? 'generic');
+  redirect(data.url);
+}
+
+/** Google 用户第一次登录后补充公司信息 */
+export async function completeProfile(fd: FormData) {
+  const required = ['company_name', 'contact_name', 'phone', 'address'];
+  if (required.some((k) => !str(fd, k))) fail('/complete-profile', 'required');
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/login');
+  const db = createServiceClient();
+  const { data: profile } = await db.from('profiles').select('customer_id, role').eq('id', user.id).single();
+  if (profile?.role === 'admin') redirect('/admin');
+  if (profile?.customer_id) redirect('/pending');
+  const v = (k: string) => str(fd, k) || null;
+  const { data: c, error } = await db.from('customers').insert({
+    company_name: str(fd, 'company_name'), contact_name: str(fd, 'contact_name'), phone: str(fd, 'phone'),
+    email: user.email, postal_code: v('postal_code'), address: str(fd, 'address'),
+    invoice_reg_no: v('invoice_reg_no'), note: v('note'),
+  }).select('id').single();
+  if (error || !c) fail('/complete-profile', error);
+  await db.from('customer_addresses').insert({
+    customer_id: c.id, label: str(fd, 'company_name'), recipient: str(fd, 'contact_name'), phone: str(fd, 'phone'),
+    postal_code: v('postal_code'), address: str(fd, 'address'), is_default: true,
+  });
+  await db.from('profiles').update({ customer_id: c.id, display_name: str(fd, 'contact_name'), locale: await getLocale() }).eq('id', user.id);
+  await mailAdmin('new_customer', { company: str(fd, 'company_name') });
+  redirect('/pending');
 }

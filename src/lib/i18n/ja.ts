@@ -21,6 +21,7 @@ export const ja: Dict = {
     adminOrders: '受注',
   },
   auth: {
+    google: 'Google でログイン / 登録', or: 'またはメールアドレスで',
     heroTitle: '世界のおいしいを、お店へ。', heroSub: '輸入食品・飲料の卸注文', p1: '24時間いつでも注文', p2: '在庫がリアルタイムでわかる', p3: 'お支払い・請求書もひと目で',
     login: 'ログイン', email: 'メールアドレス', password: 'パスワード', loginBtn: 'ログイン', noAccount: '初めてご利用ですか？',
     register: '新規取引先登録', haveAccount: 'アカウントをお持ちですか？', forgot: 'パスワードをお忘れの方',
@@ -32,6 +33,7 @@ export const ja: Dict = {
     suspendedTitle: 'アカウントは停止中です', suspendedBody: 'ご不明な点はお問い合わせください。',
   },
   reg: {
+    completeTitle: '会社情報の入力', completeIntro: 'Google で初めてログインしました。会社情報を入力してください。承認後にご注文いただけます。',
     title: '新規取引先登録', intro: '初回のみ会社情報をご登録ください。承認後はログインするだけでご注文いただけます。',
     company: '会社名・店舗名', contact: 'ご担当者名', phone: '電話番号', email: 'メールアドレス（ログイン用）',
     password: 'パスワード', passwordHint: '8 文字以上', postal: '郵便番号', address: '納品先住所',

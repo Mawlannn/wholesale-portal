@@ -21,6 +21,7 @@ export const en: Dict = {
     adminOrders: 'Orders',
   },
   auth: {
+    google: 'Continue with Google', or: 'or use email',
     heroTitle: 'Flavors from around the world, delivered to your shop.', heroSub: 'Imported food & drinks, wholesale', p1: 'Order 24/7', p2: 'Live stock levels', p3: 'Balances and statements at a glance',
     login: 'Sign in', email: 'Email', password: 'Password', loginBtn: 'Sign in', noAccount: 'First time here?',
     register: 'Register as a customer', haveAccount: 'Already registered?', forgot: 'Forgot password',
@@ -32,6 +33,7 @@ export const en: Dict = {
     suspendedTitle: 'Account suspended', suspendedBody: 'Please contact us if you have any questions.',
   },
   reg: {
+    completeTitle: 'Complete your company info', completeIntro: 'First time signing in with Google — please add your company details. You can order once approved.',
     title: 'Customer registration', intro: 'Enter your company details once. After approval, just sign in to order.',
     company: 'Company / shop name', contact: 'Contact person', phone: 'Phone', email: 'Email (for sign-in)',
     password: 'Password', passwordHint: 'At least 8 characters', postal: 'Postal code', address: 'Delivery address',

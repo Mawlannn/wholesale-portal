@@ -20,6 +20,7 @@ export const zh = {
     adminOrders: '订单',
   },
   auth: {
+    google: '使用 Google 账号登录 / 注册', or: '或使用邮箱',
     heroTitle: '把世界各地的美味，送到你的店。', heroSub: '进口食品・饮料批发订货', p1: '24 小时随时下单', p2: '实时库存，一眼看清', p3: '账款、请求书随时查看',
     login: '登录', email: '邮箱', password: '密码', loginBtn: '登录', noAccount: '第一次使用？',
     register: '注册新客户', haveAccount: '已有账号？', forgot: '忘记密码', sendReset: '发送重置邮件',
@@ -30,6 +31,7 @@ export const zh = {
     suspendedTitle: '账号已停用', suspendedBody: '如有疑问，请直接联系我们。',
   },
   reg: {
+    completeTitle: '补充公司信息', completeIntro: '第一次用 Google 登录，请填写公司信息。审核通过后即可下单。',
     title: '注册新客户', intro: '首次下单前请填写公司信息。审核通过后即可下单，以后直接登录即可。',
     company: '公司 / 店铺名称', contact: '负责人姓名', phone: '电话', email: '邮箱（登录用）',
     password: '密码', passwordHint: '至少 8 位', postal: '邮政编码', address: '收货地址',
