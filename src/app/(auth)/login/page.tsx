@@ -24,6 +24,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         {t.auth.noAccount}{' '}
         <Link href="/register" className="font-medium font-semibold text-harbor hover:underline">{t.auth.register}</Link>
       </p>
+      <p className="mt-3 text-center text-xs text-muted"><Link href="/privacy" className="hover:underline">Privacy Policy</Link></p>
     </>
   );
 }
