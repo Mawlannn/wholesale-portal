@@ -18,7 +18,7 @@ export const ja: Dict = {
     shop: '商品', cart: 'カート', orders: '注文履歴', account: 'お支払い', profile: '会社情報',
     dashboard: 'ダッシュボード', products: '商品', inbound: '入庫', inventory: '在庫', customers: '取引先',
     receivables: '売掛金', recall: 'ロット追跡', emails: 'メール履歴', logs: '操作ログ', settings: '設定',
-    adminOrders: '受注',
+    team: '管理者', adminOrders: '受注',
   },
   auth: {
     google: 'Google でログイン / 登録', or: 'またはメールアドレスで',
@@ -103,6 +103,14 @@ export const ja: Dict = {
   },
   admin: {
     gSales: '販売', gStock: '在庫', gMoney: '会計', gSystem: 'システム',
+    team: {
+      title: '管理者', sub: 'このページはオーナー（あなた）だけに表示されます', list: '現在の管理者', owner: 'オーナー', you: 'あなた',
+      add: '管理者を追加', email: 'メールアドレス', name: '氏名', password: '初期パスワード（任意）',
+      passwordHint: '空欄の場合、このメールアドレスの Google アカウントでログインできます。入力する場合は 8 文字以上で、本人に直接伝えてください',
+      addBtn: '管理者として追加', remove: '管理者から外す', removeConfirm: 'この人の管理者権限を外しますか？',
+      added: '管理者を追加しました', removed: '管理者権限を外しました',
+      note: 'このメールアドレスが既に顧客として登録されている場合は、そのまま管理者に変更されます。',
+    },
     title: '管理画面',
     dash: {
       salesTrend: '直近6か月の出荷額', quick: 'クイック操作',
@@ -181,6 +189,7 @@ export const ja: Dict = {
     },
   },
   errors: {
+    email_rate_limit: '送信回数の上限です。メールは1時間に2通までです。しばらくしてからお試しください。', cannot_remove_self: '自分の管理者権限は外せません', owner_only: 'オーナーのみ操作できます',
     invalid_login: 'メールアドレスまたはパスワードが違います', sku_taken: 'この商品コードは既に使われています',
     generic: '処理に失敗しました。もう一度お試しください', link_expired: 'リンクの有効期限が切れているか、使用済みです。もう一度パスワード再設定メールを送信してください', forbidden: '権限がありません', not_approved: 'アカウントはまだ承認されていません',
     empty_order: '商品を 1 つ以上選んでください', invalid_qty: '数量が正しくありません', product_unavailable: '販売終了の商品が含まれています',

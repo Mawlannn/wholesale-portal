@@ -3,7 +3,7 @@ import type { NavItem } from './nav';
 import { Icons } from './brand';
 
 /** 管理端菜单（侧边栏和“更多”页面共用） */
-export function adminNav(t: Dict, dash: Record<string, number>): NavItem[] {
+export function adminNav(t: Dict, dash: Record<string, number>, isOwner = false): NavItem[] {
   const a = t.admin;
   return [
     { href: '/admin', label: t.nav.dashboard, exact: true, icon: Icons.home },
@@ -17,6 +17,7 @@ export function adminNav(t: Dict, dash: Record<string, number>): NavItem[] {
     { href: '/admin/emails', label: t.nav.emails, icon: Icons.mail, group: a.gSystem },
     { href: '/admin/logs', label: t.nav.logs, icon: Icons.clock, group: a.gSystem },
     { href: '/admin/settings', label: t.nav.settings, icon: Icons.gear, group: a.gSystem },
+    ...(isOwner ? [{ href: '/admin/team', label: t.nav.team, icon: Icons.users, group: a.gSystem }] : []),
   ];
 }
 

@@ -17,7 +17,7 @@ export const zh = {
     shop: '商品', cart: '购物车', orders: '我的订单', account: '账款', profile: '公司信息',
     dashboard: '概览', products: '商品', inbound: '入库', inventory: '库存', customers: '客户',
     receivables: '应收账款', recall: '召回追溯', emails: '邮件记录', logs: '操作日志', settings: '设置',
-    adminOrders: '订单',
+    team: '管理员', adminOrders: '订单',
   },
   auth: {
     google: '使用 Google 账号登录 / 注册', or: '或使用邮箱',
@@ -100,6 +100,14 @@ export const zh = {
   },
   admin: {
     gSales: '销售', gStock: '库存', gMoney: '财务', gSystem: '系统',
+    team: {
+      title: '管理员', sub: '只有你（系统所有者）能看到这个页面', list: '现有管理员', owner: '所有者', you: '你',
+      add: '添加管理员', email: '邮箱', name: '姓名', password: '初始密码（可不填）',
+      passwordHint: '不填的话，对方用这个邮箱的 Google 账号登录即可；填的话至少 8 位，请当面告诉对方',
+      addBtn: '添加为管理员', remove: '取消管理员', removeConfirm: '确定取消这个人的管理员权限吗？',
+      added: '已添加管理员', removed: '已取消管理员权限',
+      note: '如果这个邮箱已经注册过客户账号，会直接升级为管理员。',
+    },
     title: '管理后台',
     dash: {
       salesTrend: '近 6 个月发货额', quick: '快捷操作',
@@ -177,6 +185,7 @@ export const zh = {
     },
   },
   errors: {
+    email_rate_limit: '发送太频繁了：邮件每小时最多发 2 封，请过一会儿再试。', cannot_remove_self: '不能取消自己的管理员权限', owner_only: '只有系统所有者可以操作',
     invalid_login: '邮箱或密码不正确', sku_taken: '商品编号已存在',
     generic: '操作失败，请重试', link_expired: '链接已失效或已被使用，请重新申请重置密码邮件（请在同一个浏览器里打开最新的那封邮件）', forbidden: '没有权限', not_approved: '账号尚未审核通过', empty_order: '请至少选择一个商品',
     invalid_qty: '数量不正确', product_unavailable: '有商品已下架', below_min_qty: '{sku} 未达到起订数量',

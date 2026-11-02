@@ -18,7 +18,7 @@ export const en: Dict = {
     shop: 'Products', cart: 'Cart', orders: 'My orders', account: 'Payments', profile: 'Company',
     dashboard: 'Overview', products: 'Products', inbound: 'Receiving', inventory: 'Inventory', customers: 'Customers',
     receivables: 'Receivables', recall: 'Lot tracing', emails: 'Email log', logs: 'Activity log', settings: 'Settings',
-    adminOrders: 'Orders',
+    team: 'Admins', adminOrders: 'Orders',
   },
   auth: {
     google: 'Continue with Google', or: 'or use email',
@@ -103,6 +103,14 @@ export const en: Dict = {
   },
   admin: {
     gSales: 'Sales', gStock: 'Stock', gMoney: 'Finance', gSystem: 'System',
+    team: {
+      title: 'Admins', sub: 'Only you (the owner) can see this page', list: 'Current admins', owner: 'Owner', you: 'You',
+      add: 'Add an admin', email: 'Email', name: 'Name', password: 'Initial password (optional)',
+      passwordHint: 'Leave blank and they can sign in with the Google account for this email. If set, use 8+ characters and tell them in person',
+      addBtn: 'Add as admin', remove: 'Remove admin', removeConfirm: 'Remove admin access for this person?',
+      added: 'Admin added', removed: 'Admin access removed',
+      note: 'If this email already has a customer account, it will be upgraded to admin.',
+    },
     title: 'Admin',
     dash: {
       salesTrend: 'Shipments, last 6 months', quick: 'Quick actions',
@@ -181,6 +189,7 @@ export const en: Dict = {
     },
   },
   errors: {
+    email_rate_limit: 'Too many emails: the limit is 2 per hour. Please try again later.', cannot_remove_self: 'You cannot remove your own admin access', owner_only: 'Only the owner can do this',
     invalid_login: 'Email or password is incorrect', sku_taken: 'This item code is already used',
     generic: 'Something went wrong. Please try again', link_expired: 'This link has expired or was already used. Please request a new password reset email', forbidden: 'You do not have permission', not_approved: 'Your account is not approved yet',
     empty_order: 'Choose at least one product', invalid_qty: 'Invalid quantity', product_unavailable: 'A product is no longer available',

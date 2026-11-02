@@ -24,6 +24,7 @@ export type Profile = {
   role: 'admin' | 'customer';
   customer_id: string | null;
   member_role: 'owner' | 'staff';
+  is_owner?: boolean;
   display_name: string | null;
   email: string | null;
   locale: Locale | null;

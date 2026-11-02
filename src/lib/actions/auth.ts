@@ -55,9 +55,10 @@ export async function forgotPassword(fd: FormData) {
   const supabase = createPlainClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
     auth: { flowType: 'implicit', persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
   });
-  await supabase.auth.resetPasswordForEmail(str(fd, 'email'), {
+  const { error } = await supabase.auth.resetPasswordForEmail(str(fd, 'email'), {
     redirectTo: `${await origin()}/auth/confirm?next=/reset-password`,
   });
+  if (error) fail('/forgot', error.status === 429 || /rate limit/i.test(error.message) ? 'email_rate_limit' : 'generic');
   done('/forgot', 'auth.resetSent');
 }
 

@@ -7,10 +7,10 @@ import { Icons, langLabels } from '@/components/brand';
 
 // 手机端“更多”：所有功能入口
 export default async function More() {
-  const { supabase, user } = await requireAdmin();
+  const { supabase, user, profile } = await requireAdmin();
   const { t, locale } = await getT();
   const { data: d } = await supabase.rpc('admin_dashboard');
-  const items = adminNav(t, (d ?? {}) as Record<string, number>).filter((i) => i.href !== '/admin');
+  const items = adminNav(t, (d ?? {}) as Record<string, number>, !!profile?.is_owner).filter((i) => i.href !== '/admin');
   const groups = [...new Set(items.map((i) => i.group))];
   return (
     <div className="mx-auto max-w-2xl">
