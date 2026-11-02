@@ -19,7 +19,13 @@ const ico = (d: string, size = 22) => (
     <path d={d} />
   </svg>
 );
+const dots = (
+  <svg width={22} height={22} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <circle cx="5" cy="12" r="2.1" /><circle cx="12" cy="12" r="2.1" /><circle cx="19" cy="12" r="2.1" />
+  </svg>
+);
 export const Icons = {
+  moreNav: dots,
   box: ico('M3 7.5 12 3l9 4.5v9L12 21l-9-4.5v-9ZM3 7.5 12 12l9-4.5M12 12v9'),
   cart: ico('M5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 7ZM9 7V6a3 3 0 0 1 6 0v1'),
   list: ico('M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01'),

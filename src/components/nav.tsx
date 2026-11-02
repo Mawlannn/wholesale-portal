@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import type { ReactNode } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState, type ReactNode } from 'react';
 
 export type NavItem = { href: string; label: string; badge?: number; exact?: boolean; icon?: ReactNode; group?: string; also?: string[] };
 
@@ -11,9 +11,30 @@ function isActive(path: string, i: NavItem) {
   return i.exact ? path === i.href : path === i.href || path.startsWith(i.href + '/');
 }
 
+/**
+ * 点击后立即高亮目标标签（不用等新页面数据回来），并在空闲时预加载所有标签页面，
+ * 让切换感觉更快
+ */
+function useSnappyNav(items: NavItem[]) {
+  const path = usePathname();
+  const router = useRouter();
+  const [pending, setPending] = useState<string | null>(null);
+  useEffect(() => setPending(null), [path]);
+  const hrefs = items.map((i) => i.href).join('|');
+  useEffect(() => {
+    const run = () => hrefs.split('|').forEach((h) => { try { router.prefetch(h); } catch {} });
+    const w = window as Window & { requestIdleCallback?: (cb: () => void) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(run); else setTimeout(run, 300);
+  }, [hrefs, router]);
+  const current = pending ?? path;
+  const go = (href: string) => () => { if (href !== path) setPending(href); };
+  const warm = (href: string) => () => { try { router.prefetch(href); } catch {} };
+  return { current, go, warm, pending };
+}
+
 /** 手机底部：黑色悬浮胶囊，选中项变成白色胶囊并显示文字 */
 export function BottomNav({ items }: { items: NavItem[] }) {
-  const path = usePathname();
+  const { current: path, go, warm, pending } = useSnappyNav(items);
   return (
     <nav aria-label="main"
       className="no-print shadow-float fixed inset-x-4 z-30 mx-auto flex max-w-xl items-center justify-between gap-1 rounded-full bg-ink p-1.5"
@@ -22,7 +43,8 @@ export function BottomNav({ items }: { items: NavItem[] }) {
         const on = isActive(path, i);
         return (
           <Link key={i.href} href={i.href} aria-label={i.label} aria-current={on ? 'page' : undefined}
-            className={`relative flex h-12 items-center justify-center gap-2 rounded-full transition-all duration-200 ${on ? 'flex-[1.9] bg-card px-4 text-ink' : 'flex-1 text-white/70 active:text-white'}`}>
+            onClick={go(i.href)} onPointerDown={warm(i.href)} onMouseEnter={warm(i.href)}
+            className={`relative flex h-12 items-center justify-center gap-2 rounded-full transition-[flex-grow,background-color,color] duration-150 ease-out [-webkit-tap-highlight-color:transparent] ${on ? 'flex-[1.9] bg-card px-4 text-ink' : 'flex-1 text-white/70 active:scale-95 active:text-white'} ${on && pending === i.href ? 'opacity-90' : ''}`}>
             {i.icon}
             {on && <span className="truncate text-sm font-bold">{i.label}</span>}
             {i.badge ? (
@@ -37,11 +59,11 @@ export function BottomNav({ items }: { items: NavItem[] }) {
 
 /** 桌面：顶部胶囊导航（客户端） */
 export function TopNav({ items }: { items: NavItem[] }) {
-  const path = usePathname();
+  const { current: path, go, warm } = useSnappyNav(items);
   return (
     <nav className="hidden items-center gap-1 rounded-full bg-card p-1.5 shadow-card md:flex">
       {items.map((i) => (
-        <Link key={i.href} href={i.href}
+        <Link key={i.href} href={i.href} onClick={go(i.href)} onMouseEnter={warm(i.href)}
           className={`relative flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors ${isActive(path, i) ? 'bg-ink text-white' : 'text-muted hover:text-ink'}`}>
           {i.label}
           {i.badge ? <span className="min-w-5 rounded-full bg-harbor px-1.5 text-center text-xs leading-5 text-white num">{i.badge}</span> : null}
@@ -68,7 +90,7 @@ export function CartBar({ count, total, label }: { count: number; total: string;
 
 /** 桌面：管理端白色侧边栏 */
 export function SideNav({ items, footer, header }: { items: NavItem[]; footer?: ReactNode; header?: ReactNode }) {
-  const path = usePathname();
+  const { current: path, go, warm } = useSnappyNav(items);
   return (
     <nav className="sticky top-5 hidden max-h-[calc(100dvh-2.5rem)] w-64 shrink-0 flex-col overflow-y-auto rounded-[28px] bg-card p-4 shadow-card md:flex">
       {header}
@@ -78,7 +100,7 @@ export function SideNav({ items, footer, header }: { items: NavItem[]; footer?: 
             {i.group && items[idx - 1]?.group !== i.group && (
               <div className="px-3 pb-1.5 pt-4 text-[11px] font-bold uppercase tracking-wider text-faint">{i.group}</div>
             )}
-            <Link href={i.href}
+            <Link href={i.href} onClick={go(i.href)} onMouseEnter={warm(i.href)}
               className={`flex h-11 items-center gap-3 rounded-full px-3.5 text-sm font-semibold transition-colors ${isActive(path, i) ? 'bg-ink text-white' : 'text-muted hover:bg-fill hover:text-ink'}`}>
               {i.icon}
               <span className="flex-1">{i.label}</span>

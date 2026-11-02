@@ -12,7 +12,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     { href: '/admin/orders', label: t.nav.adminOrders, badge: (dash.pending_orders ?? 0) + (dash.cancel_requests ?? 0), icon: Icons.list },
     { href: '/admin/customers', label: t.nav.customers, badge: dash.pending_customers, icon: Icons.users },
     { href: '/admin/products', label: t.nav.products, icon: Icons.box },
-    { href: '/admin/more', label: t.nav.more, icon: Icons.grid,
+    { href: '/admin/more', label: t.nav.more, icon: Icons.moreNav,
       also: ['/admin/inbound', '/admin/inventory', '/admin/recall', '/admin/receivables', '/admin/emails', '/admin/logs', '/admin/settings', '/admin/team'] },
   ];
   return (

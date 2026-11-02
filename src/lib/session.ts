@@ -53,13 +53,11 @@ export const getSession = cache(async () => {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { supabase, user: null, profile: null as Profile | null, customer: null as Customer | null };
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single<Profile>();
-  let customer: Customer | null = null;
-  if (profile?.customer_id) {
-    const { data } = await supabase.from('customers').select('*').eq('id', profile.customer_id).single<Customer>();
-    customer = data;
-  }
-  return { supabase, user, profile, customer };
+  // 一次查询同时取账号和公司信息
+  const { data } = await supabase.from('profiles').select('*, customer:customers(*)').eq('id', user.id)
+    .single<Profile & { customer: Customer | null }>();
+  const { customer = null, ...profile } = data ?? ({} as Profile & { customer: Customer | null });
+  return { supabase, user, profile: data ? (profile as Profile) : null, customer: customer ?? null };
 });
 
 export async function requireAdmin() {
